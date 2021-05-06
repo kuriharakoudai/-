@@ -3,7 +3,7 @@ window.onload = function() {
 
     score = 0;
     
-    game = new Game(320, 320);
+    game = new Game(310, 320);
     game.preload('chara1.png', 'icon0.png', 'chara2.png', 'icon1.png', 'map0.png');
 
     game.onload = function() {
