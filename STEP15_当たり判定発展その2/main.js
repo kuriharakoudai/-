@@ -142,3 +142,4 @@ Apple = Class.create(Sprite, {
         }
     }
 });
+common
