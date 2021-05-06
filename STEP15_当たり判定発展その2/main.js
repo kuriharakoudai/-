@@ -85,11 +85,11 @@ Enemy = Class.create(Sprite, {
     initialize: function(width, height) {
         Sprite.call(this, width, height);
         /* chara1.png をつかう */
-        this.image = game.assets['chara1.png']; 
+        this.image = game.assets['chara2.png']; 
         /* しろクマの画像を利用 */
-        this.frame = 5;
+        this.frame = 1;
         /* 右からやってくるので、左右逆転 */
-        this.scaleX = -1;
+        this.scaleX = 1;
         this.x = 320;
         /* y座標は0から319までの任意の数 */
         this.y = rand(320);
