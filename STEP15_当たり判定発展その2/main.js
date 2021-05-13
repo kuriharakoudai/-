@@ -42,8 +42,26 @@ window.onload = function() {
         /* マップデータをマップオブジェクトに渡す */
         map.loadData(mapArray);
         /* シーンにマップオブジェクトを渡してシーンに描画する */
-        game.rootScene.addChild(map);       
- 
+        game.rootScene.addChild(map); 
+
+        //ラベル作成
+        label = new Label();
+        
+        //ラベルの中身
+        label.text = "score:"+score;
+        
+        //ラベル座標
+        label.x = 80;
+        label.y = 0;
+        
+        //ラベルサイズ
+        label.scaleY = 2;
+        label.scaleX = 1.5;
+        
+        //ラベルカラー
+        label.color = "white";
+        
+        game.rootScene.addChild(label);
 
         /* Player クラスのクマを1匹作る */
         player = new Player(32, 32);
@@ -55,7 +73,12 @@ window.onload = function() {
             game.rootScene.addChild(new Apple());
         }).loop();
     };
- 
+
+    game.rootScene.onenterframe = function() { 
+        
+        //ラベル更新
+        label.text = "score:"+score;
+    }
 
     /* タッチに付いてくるようにする
     touchmove: タッチ座標が動いたときのイベント */
@@ -85,7 +108,7 @@ Player = Class.create(Sprite, {
     }
 });
 
-
+    
 /* 敵 クラス (パペット) をつくる */
 Enemy = Class.create(Sprite, {
     initialize: function(width, height) {
@@ -140,11 +163,8 @@ Apple = Class.create(Sprite, {
         /* this指定だと適切に動かないので注意する */
         Apple.intersect(Enemy).forEach(function(p) {
             game.rootScene.removeChild(p[1]);
-
- 
-
             game.rootScene.removeChild(p[0]);
-            score ++;
+            score+=100;
         });
         if(this.x>320){
             game.rootScene.removeChild(this);
