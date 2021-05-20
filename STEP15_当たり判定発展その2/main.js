@@ -1,11 +1,12 @@
 enchant(); 
-
+var RUN_FRAME_LIST  = [1, 2];
 score = 0;
 
 window.onload = function() {
 
     
     game = new Game(320, 320);
+    game.fps = 30;
     game.preload('chara1.png', 'icon0.png', 'chara2.png', 'icon1.png', 'map0.png','font0.png');
 
     game.onload = function() {
@@ -64,8 +65,23 @@ window.onload = function() {
         game.rootScene.addChild(label);
 
         /* Player クラスのクマを1匹作る */
-        player = new Player(32, 32);
-       
+        player = new Sprite(32, 32);
+        player.image = game.assets['chara1.png'];
+        player.frameIndex = 0;
+
+        // 更新処理
+        player.onenterframe = function() {
+            if (game.frame % 4 == 0) {
+                // フレームインデックスを調整
+                this.frameIndex += 1;
+                this.frameIndex %= RUN_FRAME_LIST.length;
+                // フレームを変更
+                this.frame = RUN_FRAME_LIST[this.frameIndex];
+
+                
+                
+            }
+        };
         /* 画面に表示する (ひとつだけでる) */
         game.rootScene.addChild(player);
         
@@ -74,11 +90,7 @@ window.onload = function() {
         }).loop();
     };
 
-    game.rootScene.onenterframe = function() { 
-        
-        //ラベル更新
-        label.text = "score:"+score;
-    }
+    
 
     /* タッチに付いてくるようにする
     touchmove: タッチ座標が動いたときのイベント */
@@ -88,7 +100,13 @@ window.onload = function() {
         player.x = evt.x - 16;
         player.y = evt.y - 16;
     };
-
+    game.rootScene.onenterframe = function () {
+        if(game.frame%30==0){
+            game.rootScene.addChild(new Enemy(32, 32));
+            //ラベル更新
+        label.text = "score:"+score;
+        }
+    };
     game.start();
 };
 
@@ -101,10 +119,7 @@ Player = Class.create(Sprite, {
     initialize: function(width, height) {
         Sprite.call(this, width, height);
         this.image = game.assets['chara1.png'];
-                this.frame = 4;
-        this.tl.delay(30).then(function() {
-            game.rootScene.addChild(new Enemy(32, 32));
-        }).loop();
+                this.frame = 0;
     }
 });
 
